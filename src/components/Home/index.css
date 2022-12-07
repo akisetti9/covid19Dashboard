@@ -1,0 +1,397 @@
+.home-container {
+  width: 1536px;
+  min-height: 100vh;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+
+  background: #161625;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+}
+.search-container {
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-top: 64px;
+  padding: 0px;
+
+  background: #2f2f43;
+  border-radius: 8px;
+
+  width: 80vw;
+  height: 72px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.search-icon {
+  margin-left: 32px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 0px;
+  width: 24px;
+  height: 24px;
+  color: #94a3b8;
+}
+
+.search-input {
+  margin-left: 8px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  margin-right: 32px;
+  padding: 0px;
+  width: 100%;
+  height: 24px;
+  color: #94a3b8;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.loader-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stats {
+  margin-top: 112px;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  padding: 0px;
+
+  width: 80vw;
+  height: 142px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.confirmed-stat {
+  width: 294px;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #ff073a;
+}
+
+.thumb-img {
+  width: 38px;
+  height: 38px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.stat-name {
+  margin: 0px;
+  padding: 0px;
+}
+
+.stat-value {
+  margin: 0px;
+  padding: 0px;
+  font-size: 24px;
+}
+
+.active-stat {
+  width: 294px;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #007bff;
+}
+
+.recovered-stat {
+  width: 294px;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #28a745;
+}
+
+.deceased-stat {
+  width: 294px;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #6c757d;
+}
+
+.state-wise-data {
+  margin-left: 150px;
+  margin-top: 106px;
+
+  width: 1146px;
+  padding: 0px;
+  padding-bottom: 24px;
+
+  background: #1e1e30;
+
+  border: 1px solid #475569;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.column-names {
+  color: #f8fafc;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.state-column-container {
+  width: 141px;
+  margin: 0px;
+  margin-left: 32px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.filter-btn {
+  background-color: transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
+  margin-left: 12px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.state-column-name {
+  margin: 0px;
+  height: 24px;
+  padding: 0px;
+  text-align: left;
+}
+
+.confirmed-column-name {
+  width: 222px;
+  padding: 0px;
+  text-align: right;
+}
+
+.active-column-name {
+  width: 182px;
+  padding: 0px;
+  text-align: right;
+}
+
+.recovered-column-name {
+  width: 191px;
+  padding: 0px;
+  text-align: right;
+}
+
+.deceased-column-name {
+  width: 168px;
+  padding: 0px;
+  text-align: right;
+}
+
+.population-column-name {
+  width: 185px;
+  padding: 0px;
+  text-align: right;
+}
+
+.break-line {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 0px;
+  border: 1px solid #475569;
+}
+
+.list-container {
+  margin-top: 24px;
+  margin-bottom: 12px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.state-detail {
+  margin: 0px;
+  margin-left: 32px;
+  padding: 0px;
+  width: 203px;
+  text-align: left;
+  color: #f1f5f9;
+}
+
+.confirmed-detail {
+  margin: 0px;
+  padding: 0px;
+  width: 159px;
+  text-align: right;
+  color: #ff073a;
+}
+
+.active-detail {
+  margin: 0px;
+  padding: 0px;
+  width: 180px;
+  text-align: right;
+  color: #007bff;
+}
+
+.recovered-detail {
+  margin: 0px;
+  padding: 0px;
+  width: 180px;
+  text-align: right;
+  color: #28a745;
+}
+
+.deceased-detail {
+  margin: 0px;
+  padding: 0px;
+  width: 180px;
+  text-align: right;
+  color: #6c757d;
+}
+
+.population-detail {
+  margin: 0px;
+  padding: 0px;
+  width: 180px;
+  text-align: right;
+  color: #94a3b8;
+}
+
+.search-results-container {
+  width: 80vw;
+  min-height: 100vh;
+  height: auto;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-top: 64px;
+  padding: 0px;
+
+  background: #161625;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.search-list-item {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 64px;
+
+  color: #64748b;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.goto-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 4px 6px;
+
+  width: 79px;
+  height: 32px;
+
+  background: rgba(28, 212, 212, 0.16);
+  border-style: none;
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+.goto-code {
+  margin: 0px;
+  padding: 0px;
+  width: 23px;
+  height: 24px;
+
+  font-family: 'HK Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #facc15;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.nav-link {
+  text-decoration: none;
+}

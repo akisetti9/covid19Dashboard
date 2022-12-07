@@ -1,0 +1,13 @@
+.state-details-container {
+  width: 1536px;
+  min-height: 100vh;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+
+  background: #161625;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+}
