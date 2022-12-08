@@ -1,5 +1,7 @@
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 import Header from '../Header'
+import NotFound from '../NotFound'
 
 import './index.css'
 
@@ -30,7 +32,18 @@ class About extends Component {
     }
   }
 
-  render() {
+  renderLoadingView = () => (
+    <>
+      <Header />
+      <div testid="aboutRouteLoader" className="loader-container">
+        <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
+      </div>
+    </>
+  )
+
+  renderFailureView = () => <NotFound />
+
+  renderSuccessView = () => {
     const {faqs, apiStatus} = this.state
     console.log(faqs, apiStatus)
     return (
@@ -42,15 +55,36 @@ class About extends Component {
           <p className="about-notes">
             COVID-19 vaccines be ready for distribution
           </p>
-          {faqs.map(each => (
-            <div className="faq-container" key={each.qno}>
-              <p className="faq-question">{each.question}</p>
-              <p className="faq-answer">{each.answer}</p>
-            </div>
-          ))}
+          <ul testid="faqsUnorderedList" className="faq-lists-container">
+            {faqs.map(each => (
+              <li className="faq-container" key={each.qno}>
+                <p className="faq-question">{each.question}</p>
+                <p className="faq-answer">{each.answer}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </>
     )
+  }
+
+  renderResult = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderSuccessView()
+      case apiStatusConstants.failure:
+        return this.renderFailureView()
+      case apiStatusConstants.inProgress:
+        return this.renderLoadingView()
+      default:
+        return null
+    }
+  }
+
+  render() {
+    return this.renderResult()
   }
 }
 

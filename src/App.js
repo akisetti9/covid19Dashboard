@@ -152,8 +152,6 @@ const statesList = [
   },
 ]
 
-console.log(statesList)
-
 const App = () => (
   <BrowserRouter>
     <Switch>

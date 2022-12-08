@@ -2,6 +2,7 @@ import {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 import {BsSearch} from 'react-icons/bs'
+import {BiChevronRightSquare} from 'react-icons/bi'
 import {FcGenericSortingAsc, FcGenericSortingDesc} from 'react-icons/fc'
 import Header from '../Header'
 import Footer from '../Footer'
@@ -172,59 +173,59 @@ class Home extends Component {
     return (
       <>
         <div className="stats">
-          <div className="confirmed-stat">
+          <div testid="countryWideConfirmedCases" className="confirmed-stat">
             <p className="stat-name">Confirmed</p>
             <img
               src="https://ik.imagekit.io/sps1un6dc/covid19dashboard/Groupconfirmed.png?ik-sdk-version=javascript-1.4.3&updatedAt=1670345901387"
-              alt="confirmed"
+              alt="country wide confirmed cases pic"
               className="thumb-img"
             />
             <p className="stat-value">{confirmed}</p>
           </div>
-
-          <div className="active-stat">
+          <div testid="countryWideActiveCases" className="active-stat">
             <p className="stat-name">Active</p>
             <img
               src="https://ik.imagekit.io/sps1un6dc/covid19dashboard/protection_1active.png?ik-sdk-version=javascript-1.4.3&updatedAt=1670345901404"
-              alt="active"
+              alt="country wide active cases pic"
               className="thumb-img"
             />
             <p className="stat-value">{active}</p>
           </div>
-
-          <div className="recovered-stat">
+          <div testid="countryWideRecoveredCases" className="recovered-stat">
             <p className="stat-name">Recovered</p>
             <img
               src="https://ik.imagekit.io/sps1un6dc/covid19dashboard/recovered_1recovered.png?ik-sdk-version=javascript-1.4.3&updatedAt=1670345901476"
-              alt="recovered"
+              alt="country wide recovered cases pic"
               className="thumb-img"
             />
             <p className="stat-value">{recovered}</p>
           </div>
-
-          <div className="deceased-stat">
+          <div testid="countryWideDeceasedCases" className="deceased-stat">
             <p className="stat-name">Deceased</p>
             <img
               src="https://ik.imagekit.io/sps1un6dc/covid19dashboard/breathing_1deceased.png?ik-sdk-version=javascript-1.4.3&updatedAt=1670345901284"
-              alt="deceased"
+              alt="country wide deceased cases pic"
               className="thumb-img"
             />
             <p className="stat-value">{deceased}</p>
           </div>
         </div>
-
-        <div className="state-wise-data">
+        <div testid="stateWiseCovidDataTable" className="state-wise-data">
           <div className="column-names">
             <div className="state-column-container">
-              <p className="state-column-name">State/UT</p>
+              <p className="state-column-name">States/UT</p>
+
               <button
+                testid="ascendingSort"
                 type="button"
                 className="filter-btn"
                 onClick={this.onAscKeys}
               >
                 <FcGenericSortingAsc />
               </button>
+
               <button
+                testid="descendingSort"
                 type="button"
                 className="filter-btn"
                 onClick={this.onDescKeys}
@@ -240,16 +241,20 @@ class Home extends Component {
           </div>
           <hr className="break-line" />
           {/* StatesList */}
-          {stats.map(each => (
-            <div className="list-container" key={each.stateCode}>
-              <p className="state-detail">{each.name}</p>
-              <p className="confirmed-detail">{each.confirmed}</p>
-              <p className="active-detail">{each.active}</p>
-              <p className="recovered-detail">{each.recovered}</p>
-              <p className="deceased-detail">{each.deceased}</p>
-              <p className="population-detail">{each.population}</p>
-            </div>
-          ))}
+          <ul>
+            {stats.map(each => (
+              <li className="list-container" key={each.stateCode}>
+                <Link to={`/state/${each.stateCode}`} className="nav-link">
+                  <p className="state-detail">{each.name}</p>
+                </Link>
+                <p className="confirmed-detail">{each.confirmed}</p>
+                <p className="active-detail">{each.active}</p>
+                <p className="recovered-detail">{each.recovered}</p>
+                <p className="deceased-detail">{each.deceased}</p>
+                <p className="population-detail">{each.population}</p>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <Footer />
@@ -265,30 +270,33 @@ class Home extends Component {
     )
     return (
       <>
-        <div className="search-results-container">
+        <ul
+          testid="searchResultsUnorderedList"
+          className="search-results-container"
+        >
           {updatedList.map(each => (
-            <div className="search-list-item" key={each.state_code}>
-              <p>{each.state_name}</p>
-              <Link to={`/state/${each.state_code}`} className="nav-link">
+            <Link to={`/state/${each.state_code}`} className="nav-link">
+              <li className="search-list-item" key={each.state_code}>
+                <p>{each.state_name}</p>
                 <button type="button" className="goto-container">
                   <p className="goto-code">{each.state_code}</p>
-                  <img
-                    src="https://ik.imagekit.io/sps1un6dc/covid19dashboard/Linegoto.png?ik-sdk-version=javascript-1.4.3&updatedAt=1670409007046"
-                    alt="goto icon"
-                  />
+                  <BiChevronRightSquare />
                 </button>
-              </Link>
-            </div>
+              </li>
+            </Link>
           ))}
-        </div>
+        </ul>
       </>
     )
   }
 
   renderLoadingView = () => (
-    <div className="loader-container">
-      <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
-    </div>
+    <>
+      <Header />
+      <div testid="homeRouteLoader" className="loader-container">
+        <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
+      </div>
+    </>
   )
 
   renderFailureView = () => <NotFound />
