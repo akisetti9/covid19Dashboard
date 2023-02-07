@@ -179,7 +179,6 @@ class StateDetails extends Component {
     districtsLatest: [],
     stateApiStatus: apiStatusConstants.initial,
     apiStatus: apiStatusConstants.initial,
-    selectedStateCode: '',
   }
 
   componentDidMount() {
@@ -193,83 +192,92 @@ class StateDetails extends Component {
     const {stateCode} = params
 
     this.setState({
-      selectedStateCode: stateCode,
       stateApiStatus: apiStatusConstants.inProgress,
     })
-    const apiUrl = `https://apis.ccbp.in/covid19-state-wise-data`
-    const response = await fetch(apiUrl)
-    if (response.ok) {
-      const fetchedData = await response.json()
-      const stateKeys = Object.keys(fetchedData)
-      //* latest state data
-      let latestStateData
-      stateKeys.forEach(stateKey => {
-        if (stateKey === stateCode) {
-          latestStateData = {
-            confirmed: fetchedData[stateKey].total.confirmed,
-            active:
-              fetchedData[stateKey].total.confirmed -
-              fetchedData[stateKey].total.deceased -
-              fetchedData[stateKey].total.recovered,
-            deceased: fetchedData[stateKey].total.deceased,
-            recovered: fetchedData[stateKey].total.recovered,
-            tested: fetchedData[stateKey].total.tested,
-            vaccinated1: fetchedData[stateKey].total.vaccinated1,
-            vaccinated2: fetchedData[stateKey].total.vaccinated2,
-          }
+
+    if (statesList.map(each => each.state_code).includes(stateCode)) {
+      const apiUrl = `https://apis.ccbp.in/covid19-state-wise-data`
+      const response = await fetch(apiUrl)
+      if (response.ok) {
+        const fetchedData = await response.json()
+        console.log(fetchedData)
+        const stateKeys = Object.keys(fetchedData)
+        console.log(stateKeys)
+        //* latest state data
+        const stateName = statesList.find(each => each.state_code === stateCode)
+          .state_name
+        const latestStateData = {
+          stateName,
+          confirmed: fetchedData[stateCode].total.confirmed,
+          active:
+            fetchedData[stateCode].total.confirmed -
+            fetchedData[stateCode].total.deceased -
+            fetchedData[stateCode].total.recovered,
+          deceased: fetchedData[stateCode].total.deceased,
+          recovered: fetchedData[stateCode].total.recovered,
+          tested: fetchedData[stateCode].total.tested,
+          vaccinated1: fetchedData[stateCode].total.vaccinated1,
+          vaccinated2: fetchedData[stateCode].total.vaccinated2,
         }
-      })
-      //* Districts
-      const districtsLatestReceivedData = []
-      stateKeys.forEach(stateKey => {
-        if (stateKey === stateCode) {
-          const districts = Object.keys(fetchedData[stateKey].districts)
-          districts.forEach(district => {
-            const latestDistrictData = {
-              district,
-              confirmed: fetchedData[stateKey].districts[district].total
-                .confirmed
-                ? fetchedData[stateKey].districts[district].total.confirmed
-                : 0,
-              active:
-                (fetchedData[stateKey].districts[district].total.confirmed
+
+        //* Districts
+        const districtsLatestReceivedData = []
+        stateKeys.forEach(stateKey => {
+          //   statesList.map(each => each.state_code)
+          if (stateKey === stateCode) {
+            const districts = Object.keys(fetchedData[stateKey].districts)
+            districts.forEach(district => {
+              const latestDistrictData = {
+                district,
+                confirmed: fetchedData[stateKey].districts[district].total
+                  .confirmed
                   ? fetchedData[stateKey].districts[district].total.confirmed
-                  : 0) -
-                (fetchedData[stateKey].districts[district].total.deceased
+                  : 0,
+                active:
+                  (fetchedData[stateKey].districts[district].total.confirmed
+                    ? fetchedData[stateKey].districts[district].total.confirmed
+                    : 0) -
+                  (fetchedData[stateKey].districts[district].total.deceased
+                    ? fetchedData[stateKey].districts[district].total.deceased
+                    : 0) -
+                  (fetchedData[stateKey].districts[district].total.recovered
+                    ? fetchedData[stateKey].districts[district].total.recovered
+                    : 0),
+                deceased: fetchedData[stateKey].districts[district].total
+                  .deceased
                   ? fetchedData[stateKey].districts[district].total.deceased
-                  : 0) -
-                (fetchedData[stateKey].districts[district].total.recovered
+                  : 0,
+                recovered: fetchedData[stateKey].districts[district].total
+                  .recovered
                   ? fetchedData[stateKey].districts[district].total.recovered
-                  : 0),
-              deceased: fetchedData[stateKey].districts[district].total.deceased
-                ? fetchedData[stateKey].districts[district].total.deceased
-                : 0,
-              recovered: fetchedData[stateKey].districts[district].total
-                .recovered
-                ? fetchedData[stateKey].districts[district].total.recovered
-                : 0,
-              tested: fetchedData[stateKey].districts[district].total.tested
-                ? fetchedData[stateKey].districts[district].total.tested
-                : 0,
-              vaccinated1: fetchedData[stateKey].districts[district].total
-                .vaccinated1
-                ? fetchedData[stateKey].districts[district].total.vaccinated1
-                : 0,
-              vaccinated2: fetchedData[stateKey].districts[district].total
-                .vaccinated2
-                ? fetchedData[stateKey].districts[district].total.vaccinated2
-                : 0,
-            }
-            districtsLatestReceivedData.push(latestDistrictData)
-          })
-        }
-      })
-      //* Changing State
-      this.setState({
-        stateLatest: latestStateData,
-        districtsLatest: districtsLatestReceivedData,
-        stateApiStatus: apiStatusConstants.success,
-      })
+                  : 0,
+                tested: fetchedData[stateKey].districts[district].total.tested
+                  ? fetchedData[stateKey].districts[district].total.tested
+                  : 0,
+                vaccinated1: fetchedData[stateKey].districts[district].total
+                  .vaccinated1
+                  ? fetchedData[stateKey].districts[district].total.vaccinated1
+                  : 0,
+                vaccinated2: fetchedData[stateKey].districts[district].total
+                  .vaccinated2
+                  ? fetchedData[stateKey].districts[district].total.vaccinated2
+                  : 0,
+              }
+              districtsLatestReceivedData.push(latestDistrictData)
+            })
+          }
+        })
+        //* Changing State
+        this.setState({
+          stateLatest: latestStateData,
+          districtsLatest: districtsLatestReceivedData,
+          stateApiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({
+          stateApiStatus: apiStatusConstants.failure,
+        })
+      }
     } else {
       this.setState({
         stateApiStatus: apiStatusConstants.failure,
@@ -283,44 +291,50 @@ class StateDetails extends Component {
     const {stateCode} = params
 
     this.setState({
-      selectedStateCode: stateCode,
       apiStatus: apiStatusConstants.inProgress,
     })
-    const apiUrl = `https://apis.ccbp.in/covid19-timelines-data/${stateCode}`
-    const response = await fetch(apiUrl)
-    if (response.ok) {
-      const fetchedData = await response.json()
-      console.log(2, fetchedData)
-      const stateKey = Object.keys(fetchedData)
-      const stateDates = Object.keys(fetchedData[stateKey].dates)
-      //* DISTRICT DAILY DATA
-      const dateWiseReceivedData = []
-      stateDates.forEach(date => {
-        const {
-          confirmed,
-          deceased,
-          recovered,
-          tested,
-          vaccinated1,
-          vaccinated2,
-        } = fetchedData[stateKey].dates[date].total
-        dateWiseReceivedData.push({
-          date,
-          confirmed,
-          active: confirmed - deceased - recovered,
-          deceased,
-          recovered,
-          tested,
-          vaccinated1,
-          vaccinated2,
-        })
-      })
 
-      //* Changing State
-      this.setState({
-        stateDateWise: dateWiseReceivedData,
-        apiStatus: apiStatusConstants.success,
-      })
+    if (statesList.map(each => each.state_code).includes(stateCode)) {
+      const apiUrl = `https://apis.ccbp.in/covid19-timelines-data/${stateCode}`
+      const response = await fetch(apiUrl)
+      if (response.ok) {
+        const fetchedData = await response.json()
+        console.log(2, fetchedData)
+        const stateKey = Object.keys(fetchedData)
+        const stateDates = Object.keys(fetchedData[stateKey].dates)
+        //* DISTRICT DAILY DATA
+        const dateWiseReceivedData = []
+        stateDates.forEach(date => {
+          const {
+            confirmed,
+            deceased,
+            recovered,
+            tested,
+            vaccinated1,
+            vaccinated2,
+          } = fetchedData[stateKey].dates[date].total
+          dateWiseReceivedData.push({
+            date,
+            confirmed,
+            active: confirmed - deceased - recovered,
+            deceased,
+            recovered,
+            tested,
+            vaccinated1,
+            vaccinated2,
+          })
+        })
+
+        //* Changing State
+        this.setState({
+          stateDateWise: dateWiseReceivedData,
+          apiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({
+          apiStatus: apiStatusConstants.failure,
+        })
+      }
     } else {
       this.setState({
         apiStatus: apiStatusConstants.failure,
@@ -635,7 +649,6 @@ class StateDetails extends Component {
       districtsLatest,
       districtsDateWise,
       apiStatus,
-      selectedStateCode,
     } = this.state
     console.log(
       stateApiStatus,
@@ -644,11 +657,6 @@ class StateDetails extends Component {
       districtsDateWise,
       apiStatus,
     )
-    let stateName
-    if (selectedStateCode !== '') {
-      stateName = statesList.find(each => each.state_code === selectedStateCode)
-        .state_name
-    }
 
     let districtsTitleClassName
     switch (selectedStat) {
@@ -673,7 +681,7 @@ class StateDetails extends Component {
         <div className="state-details-container">
           <div className="state-header-container">
             <div className="state-name-container">
-              <h1 className="state-name">{stateName}</h1>
+              <h1 className="state-name">{stateLatest.stateName}</h1>
               <p className="last-updated">Last update on march 28th 2021.</p>
             </div>
             <div className="tested-container">
@@ -785,11 +793,9 @@ class StateDetails extends Component {
   }
 
   renderStateLoadingView = () => (
-    <>
-      <div testid="stateDetailsLoader" className="loader-container">
-        <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
-      </div>
-    </>
+    <div testid="stateDetailsLoader" className="loader-container">
+      <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
+    </div>
   )
 
   renderResult = () => {
@@ -820,11 +826,9 @@ class StateDetails extends Component {
   )
 
   renderGraphsLoadingView = () => (
-    <>
-      <div testid="timelinesDataLoader" className="loader-container">
-        <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
-      </div>
-    </>
+    <div testid="timelinesDataLoader" className="loader-container">
+      <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
+    </div>
   )
 
   renderGraphsResult = () => {

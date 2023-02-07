@@ -158,8 +158,8 @@ const App = () => (
       <Route exact path="/" render={() => <Home statesList={statesList} />} />
       <Route exact path="/about" component={About} />
       <Route exact path="/state/:stateCode" component={StateDetails} />
-      <Route path="/not-found" component={NotFound} />
-      <Redirect to="not-found" />
+      <Route path="/bad-path" component={NotFound} />
+      <Redirect to="bad-path" />
     </Switch>
   </BrowserRouter>
 )

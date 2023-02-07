@@ -2,6 +2,7 @@ import {Component} from 'react'
 import Loader from 'react-loader-spinner'
 import Header from '../Header'
 import NotFound from '../NotFound'
+import FaqItem from '../FaqItem'
 
 import './index.css'
 
@@ -23,10 +24,13 @@ class About extends Component {
     this.setState({apiStatus: apiStatusConstants.inProgress})
     const apiUrl = 'https://apis.ccbp.in/covid19-faqs'
     const response = await fetch(apiUrl)
+    console.log(response)
     if (response.ok) {
-      this.setState({apiStatus: apiStatusConstants.success})
       const fetchedData = await response.json()
-      this.setState({faqs: [...fetchedData.faq]})
+      this.setState({
+        apiStatus: apiStatusConstants.success,
+        faqs: [...fetchedData.faq],
+      })
     } else {
       this.setState({apiStatus: apiStatusConstants.failure})
     }
@@ -35,7 +39,7 @@ class About extends Component {
   renderLoadingView = () => (
     <>
       <Header />
-      <div testid="aboutRouteLoader" className="loader-container">
+      <div testid="aboutRouteLoader" className="faqs-loader-container">
         <Loader type="TailSpin" color="#0b69ff" height="53.3" width="53.3" />
       </div>
     </>
@@ -44,8 +48,7 @@ class About extends Component {
   renderFailureView = () => <NotFound />
 
   renderSuccessView = () => {
-    const {faqs, apiStatus} = this.state
-    console.log(faqs, apiStatus)
+    const {faqs} = this.state
     return (
       <>
         <Header />
@@ -57,10 +60,7 @@ class About extends Component {
           </p>
           <ul testid="faqsUnorderedList" className="faq-lists-container">
             {faqs.map(each => (
-              <li className="faq-container" key={each.qno}>
-                <p className="faq-question">{each.question}</p>
-                <p className="faq-answer">{each.answer}</p>
-              </li>
+              <FaqItem faq={each} key={each.qno} />
             ))}
           </ul>
         </div>

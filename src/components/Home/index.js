@@ -44,6 +44,7 @@ class Home extends Component {
     if (response.ok) {
       this.setState({apiStatus: apiStatusConstants.success})
       const fetchedData = await response.json()
+      console.log(fetchedData)
       const resultList = []
       //   getting keys of an object object
       const keyNames = Object.keys(fetchedData)
@@ -241,7 +242,7 @@ class Home extends Component {
           </div>
           <hr className="break-line" />
           {/* StatesList */}
-          <ul>
+          <ul className="states-ul">
             {stats.map(each => (
               <li className="list-container" key={each.stateCode}>
                 <Link to={`/state/${each.stateCode}`} className="nav-link">

@@ -397,3 +397,7 @@
 .nav-link {
   text-decoration: none;
 }
+
+.states-ul {
+  margin-left: -40px;
+}
