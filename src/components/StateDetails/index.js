@@ -164,6 +164,59 @@ const statesList = [
   },
 ]
 
+const sampleDates = [
+  '2021-09-12',
+  '2021-09-13',
+  '2021-09-14',
+  '2021-09-15',
+  '2021-09-16',
+  '2021-09-17',
+  '2021-09-18',
+  '2021-09-19',
+  '2021-09-20',
+  '2021-09-21',
+  '2021-09-22',
+  '2021-09-23',
+  '2021-09-24',
+  '2021-09-25',
+  '2021-09-26',
+  '2021-09-27',
+  '2021-09-28',
+  '2021-09-29',
+  '2021-09-30',
+  '2021-10-01',
+  '2021-10-02',
+  '2021-10-03',
+  '2021-10-04',
+  '2021-10-05',
+  '2021-10-06',
+  '2021-10-07',
+  '2021-10-08',
+  '2021-10-09',
+  '2021-10-10',
+  '2021-10-11',
+  '2021-10-12',
+  '2021-10-13',
+  '2021-10-14',
+  '2021-10-15',
+  '2021-10-16',
+  '2021-10-17',
+  '2021-10-18',
+  '2021-10-19',
+  '2021-10-20',
+  '2021-10-21',
+  '2021-10-22',
+  '2021-10-23',
+  '2021-10-24',
+  '2021-10-25',
+  '2021-10-26',
+  '2021-10-27',
+  '2021-10-28',
+  '2021-10-29',
+  '2021-10-30',
+  '2021-10-31',
+]
+
 const apiStatusConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
@@ -194,7 +247,7 @@ class StateDetails extends Component {
     this.setState({
       stateApiStatus: apiStatusConstants.inProgress,
     })
-
+    console.log(statesList.map(each => each.state_code).includes(stateCode))
     if (statesList.map(each => each.state_code).includes(stateCode)) {
       const apiUrl = `https://apis.ccbp.in/covid19-state-wise-data`
       const response = await fetch(apiUrl)
@@ -279,8 +332,35 @@ class StateDetails extends Component {
         })
       }
     } else {
+      const latestStateData = {
+        stateName: '',
+        confirmed: 0,
+        active: 0,
+        deceased: 0,
+        recovered: 0,
+        tested: 0,
+        vaccinated1: 0,
+        vaccinated2: 0,
+      }
+
+      //* Districts
+      const districtsLatestReceivedData = []
+      const latestDistrictData = {
+        district: '',
+        confirmed: 0,
+        active: 0,
+        deceased: 0,
+        recovered: 0,
+        tested: 0,
+        vaccinated1: 0,
+        vaccinated2: 0,
+      }
+      districtsLatestReceivedData.push(latestDistrictData)
+      //* Changing State
       this.setState({
-        stateApiStatus: apiStatusConstants.failure,
+        stateLatest: latestStateData,
+        districtsLatest: districtsLatestReceivedData,
+        stateApiStatus: apiStatusConstants.success,
       })
     }
   }
@@ -336,8 +416,25 @@ class StateDetails extends Component {
         })
       }
     } else {
+      //* DISTRICT DAILY DUMMY DATA
+      const dateWiseReceivedData = []
+      sampleDates.forEach(date => {
+        dateWiseReceivedData.push({
+          date,
+          confirmed: 0,
+          active: 0,
+          deceased: 0,
+          recovered: 0,
+          tested: 0,
+          vaccinated1: 0,
+          vaccinated2: 0,
+        })
+      })
+
+      //* Changing State
       this.setState({
-        apiStatus: apiStatusConstants.failure,
+        stateDateWise: dateWiseReceivedData,
+        apiStatus: apiStatusConstants.success,
       })
     }
   }
